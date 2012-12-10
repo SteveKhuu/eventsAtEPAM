@@ -50,7 +50,6 @@ class Task(models.Model):
     user = models.ForeignKey(User)
     event = models.ForeignKey(Events)
     is_done = models.BooleanField(default=False)
-    created_datetime = models.DateTimeField(default=datetime.now)
     
     def inform_task_to_attendee(self):
     
@@ -72,7 +71,7 @@ class Task(models.Model):
             try:
               mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [self.user.email])
               mail.send()
-        
+              print 'email sent for task: ' + self.name
             except: 
               print 'There was an error sending your invitation.'
     

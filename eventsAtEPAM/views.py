@@ -11,8 +11,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
-from eventsAtEPAM.models import Events, Attendee, Comment
-from eventsAtEPAM.eventForms import EventForm, CommentForm
+from eventsAtEPAM.models import Events, Attendee, Comment, Task
+from eventsAtEPAM.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm
 
 def index(request):
     events = Events.objects.all()
@@ -32,10 +32,28 @@ def detail(request, event_id):
     is_attending = event.attendees.filter(username=request.user.username).exists()
     is_managing = False
     
+    task_list_formset = []
+    
     if is_attending:
         attendee = Attendee.objects.get(event=event, user=request.user)
         
         is_managing = is_managing or attendee.is_managing
+        
+        if is_managing:
+            
+            tasks = Task.objects.filter(event=event)
+            task_list_formset = AddTaskFormset(prefix='task', instance=event)
+            
+            if request.method=='POST':
+        
+              task_list_formset = AddTaskFormset(request.POST, prefix='task', instance=event)
+              
+              if task_list_formset.is_valid():
+                task_list_formset.save()
+                task_list_formset = AddTaskFormset(prefix='task', instance=event)
+              else:
+                  print 'invalid formset'
+                  print task_list_formset.errors
     
     comment_form = CommentForm(initial={'event':event.pk, 'user':request.user.id})
     
@@ -46,6 +64,7 @@ def detail(request, event_id):
                'is_attending' : is_attending,
                'is_managing' : is_managing,
                'comment_form' : comment_form,
+               'task_list_formset' : task_list_formset,
                }
     
     return render(request, 'eventsAtEPAM/detail.html', context)
