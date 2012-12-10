@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block content %}
+<div class="centered">
+
+	<h1>User Preferences</h1>
+	
+	<form action="." method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Save My Preferences" />
+	</form>
+</div>
+{% endblock %}

@@ -85,4 +85,26 @@ class Task(models.Model):
     
     def __unicode__(self):
         return self.name
+
+class Subscriber(models.Model):
+    
+    FREQUENCY_CHOICES = (
+        ('d', 'Daily Digest'),
+        ('w', 'Weekly Digest'),
+    )
+    
+    FILTER_CHOICES = (
+        ('m', 'Just My Events'),
+        ('a', 'All Events in my Area'),
+        ('c', 'All Events in EPAM'),
+    )
+    
+    user = models.ForeignKey(User)
+    frequency = models.CharField(max_length=2,
+                                      choices=FREQUENCY_CHOICES,
+                                      default='d')
+    event_filter = models.CharField(max_length=2,
+                                      choices=FILTER_CHOICES,
+                                      default='c')
+    
     

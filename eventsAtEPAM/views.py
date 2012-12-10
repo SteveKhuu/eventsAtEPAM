@@ -11,8 +11,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
-from eventsAtEPAM.models import Events, Attendee, Comment, Task
-from eventsAtEPAM.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm
+from eventsAtEPAM.models import Events, Attendee, Comment, Task, Subscriber
+from eventsAtEPAM.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm, SubscriberForm
 
 def index(request):
     events = Events.objects.all().order_by('-start_datetime')
@@ -183,3 +183,22 @@ def comment(request, event_id):
       print comment_form.errors
      
   return redirect('detail', event_id=event_id)
+
+def my_preferences(request):
+    
+    user = request.user
+    
+    preferences, created = Subscriber.objects.get_or_create(user=user)
+    
+    form = SubscriberForm(instance=preferences)
+    
+    if request.method == 'POST':
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            form.save()
+    
+    context = {
+               'form':form
+               }
+
+    return render(request, 'eventsAtEPAM/user_preferences.html', context)

@@ -2,8 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from django.forms.widgets import HiddenInput, Textarea
-from eventsAtEPAM.models import Events, Comment, Task
+from django.forms.widgets import HiddenInput, Textarea, RadioSelect
+from eventsAtEPAM.models import Events, Comment, Task, Subscriber
 from eventsAtEPAM.widgets import SplitSelectDateTimeWidget
 
 class EventForm(ModelForm):
@@ -37,3 +37,10 @@ class TaskForm(ModelForm):
 
 
 AddTaskFormset = inlineformset_factory(Events, Task, form=TaskForm, extra=1, can_delete=False)
+
+class SubscriberForm(ModelForm):
+    class Meta:
+        model = Subscriber
+        widgets = {
+            'user' : HiddenInput()
+          }
