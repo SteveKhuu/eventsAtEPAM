@@ -4,6 +4,11 @@
 {% block content %}
 
 <nav>
+	{% if is_attending %}
+	<a href="{% url 'leave' event.id %}">Leave event</a>
+	{% else %}
+	<a href="{% url 'attend' event.id %}">Attend event</a>
+	{% endif %}
 	<a href="{% url 'export' event.id %}">Export event to calendar</a>
 	{% if is_managing %}
 		<a href="{% url 'edit' event.id %}">Edit event</a>

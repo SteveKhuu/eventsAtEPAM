@@ -25,13 +25,28 @@ def index(request):
 
 def my_events(request):
     user = request.user
-    events = Events.objects.filter(attendee=user).order_by('-start_datetime')
+    events = Events.objects.filter(attendees=user).order_by('-start_datetime')
     
     context = {
                'events' : events
                }
     
     return render(request, 'eventsAtEPAM/index.html', context)
+
+def attend_event(request, event_id):
+    event = Events.objects.get(pk=event_id)
+    attendee = Attendee(user=request.user, event=event)
+    attendee.save()
+    
+    return redirect('detail', event_id=event_id)
+
+def leave_event(request, event_id):
+    event = Events.objects.get(pk=event_id)
+    
+    attendee = Attendee.objects.get(user=request.user, event=event)
+    attendee.delete()
+    
+    return redirect('detail', event_id=event_id)
 
 def detail(request, event_id):
     user = request.user

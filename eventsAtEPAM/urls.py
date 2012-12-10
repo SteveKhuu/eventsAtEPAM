@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     url(r'^my_events/$', views.my_events, name='my_events'),
     
     url(r'^(?P<event_id>\d+)/$', views.detail, name='detail'),
+    url(r'^attend/(?P<event_id>\d+)/$', views.attend_event, name='attend'),
+    url(r'^leave/(?P<event_id>\d+)/$', views.leave_event, name='leave'),
     url(r'^create/$', views.create_event, name='create'),
     url(r'^edit/(?P<event_id>\d+)/$', views.edit_event, name='edit'),
     url(r'^export/(?P<event_id>\d+)/$', views.export_event, name='export'),
