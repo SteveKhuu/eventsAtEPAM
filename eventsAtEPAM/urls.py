@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.simple import redirect_to
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -17,6 +18,9 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^$', views.index, name='index'),
     url(r'^(?P<event_id>\d+)/$', views.detail, name='detail'),
+    url(r'^create/$', views.create_event, name='create'),
+    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/profile/', redirect_to, {'url': '/'}),
     url(r'^admin/', include(admin.site.urls)),
     
 )

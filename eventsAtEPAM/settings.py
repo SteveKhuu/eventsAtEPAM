@@ -1,5 +1,10 @@
 # Django settings for eventsAtEPAM project.
 
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
 import os
 from os import environ
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
@@ -55,6 +60,8 @@ MEDIA_ROOT = ''
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = ''
+
+ACCOUNT_ACTIVATION_DAYS = 7
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -127,6 +134,7 @@ INSTALLED_APPS = (
      'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'registration',
     'eventsAtEPAM',
     'south',
 )

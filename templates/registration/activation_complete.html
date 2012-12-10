@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="centered">
+	<h2>{% trans "Account successfully activated!" %}</h2>
+	
+	<p><a href="{% url home %}">{% trans "Log in" %}</a></p>
+</div>
+{% endblock %}
