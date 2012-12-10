@@ -16,6 +16,8 @@ class Events(models.Model):
     end_datetime = models.DateTimeField('end datetime')
     created_datetime = models.DateTimeField(default=datetime.now)
     
+    attendees = models.ManyToManyField(User, through='Attendee')
+    
     def is_over(self):
         return timezone.now() >= self.end_datetime
 
