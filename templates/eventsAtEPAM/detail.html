@@ -24,18 +24,29 @@
 	{% endfor %}
 	</ul>
 	
-	<h1>Comments</h1>
-	{% for comment in comments %}
-	<li>
-		<p>
-			<strong>{{comment.user}} says:</strong>
-			<br />
-			{{comment.comment}}
-			<br />
+	{% if is_attending %}
+		<h2>Comments</h2>
+			<form action="{% url 'comment' event.id %}" method="post">
+			{% csrf_token %}
+			{{ comment_form.as_p }}
+			<input type="submit" value="Submit Comment" />
+		</form>
+
+		{% if comments %}
+		<ul class="comments">
+		{% for comment in comments %}
+			<li>
+				<strong>{{comment.user}} says:</strong>
+				<br />
+				{{comment.comment}}
+				<br />
 			{{comment.created_datetime|timesince}} ago
-		</p>
-	</li>
-	{% endfor %}
+			</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	
+{% endif %}
 	
 </p>
 

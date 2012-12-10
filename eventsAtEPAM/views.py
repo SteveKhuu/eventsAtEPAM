@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.template.defaultfilters import slugify
 
 from eventsAtEPAM.models import Events, Attendee, Comment
-from eventsAtEPAM.eventForms import EventForm
+from eventsAtEPAM.eventForms import EventForm, CommentForm
 
 def index(request):
     events = Events.objects.all()
@@ -37,12 +37,15 @@ def detail(request, event_id):
         
         is_managing = is_managing or attendee.is_managing
     
+    comment_form = CommentForm(initial={'event':event.pk, 'user':request.user.id})
+    
     context = {
                'event' : event,
                'attendees' : attendees,
                'comments' : comments,
                'is_attending' : is_attending,
                'is_managing' : is_managing,
+               'comment_form' : comment_form,
                }
     
     return render(request, 'eventsAtEPAM/detail.html', context)
@@ -123,3 +126,16 @@ def export_event(request, event_id):
     response['Content-Disposition'] = 'attachment; filename=%s.ics' % slugify(event.name + "-" + str(event.start_datetime.year))
     
     return response
+
+def comment(request, event_id):
+
+  if request.method == 'POST':
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+      comment_form.save()
+     
+    else:
+      print 'Error in comments'
+      print comment_form.errors
+     
+  return redirect('detail', event_id=event_id)
