@@ -12,6 +12,7 @@
 	<a href="{% url 'export' event.id %}">Export event to calendar</a>
 	{% if is_managing %}
 		<a href="{% url 'edit' event.id %}">Edit event</a>
+		<a href="{% url 'delete' event.id %}">Delete event</a>
 	{% endif %}
 </nav>
 

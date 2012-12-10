@@ -202,3 +202,6 @@ def my_preferences(request):
                }
 
     return render(request, 'eventsAtEPAM/user_preferences.html', context)
+
+def delete_event(request):
+    return ""

@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^leave/(?P<event_id>\d+)/$', views.leave_event, name='leave'),
     url(r'^create/$', views.create_event, name='create'),
     url(r'^edit/(?P<event_id>\d+)/$', views.edit_event, name='edit'),
+    url(r'^delete/(?P<event_id>\d+)/$', views.delete_event, name='delete'),
     url(r'^export/(?P<event_id>\d+)/$', views.export_event, name='export'),
     url(r'^comment/(?P<event_id>\d+)/$', views.comment, name='comment'),
     
