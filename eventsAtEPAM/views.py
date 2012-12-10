@@ -48,6 +48,9 @@ def detail(request, event_id):
     return render(request, 'eventsAtEPAM/detail.html', context)
 
 def create_event(request):
+    
+    form = EventForm()
+    
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
@@ -55,13 +58,11 @@ def create_event(request):
             attendee = Attendee(user = request.user, event = new_event, is_managing=True)
             attendee.save()
             return redirect('detail', event_id=new_event.pk)
-        else:
-            form = EventForm()
         
-        context = {
-        'form' : form,
-        'button_label' : 'Create Event'
-        }
+    context = {
+               'form' : form,
+               'button_label' : 'Create Event'
+    }
     return render(request, 'eventsAtEPAM/create.html', context)
                 
 def edit_event(request, event_id):
