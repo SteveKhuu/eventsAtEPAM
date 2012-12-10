@@ -2,10 +2,10 @@
 {% load url from future %}
 
 {% block content %}
-	<span><h1>{{ event.name }}</h1></span>
-	<span>{{event.description}}</span><br>
-	<span>{{event.location}}</span><br>
-	<span>{{event.start_datetime}} to {{event.end_datetime}}</span>
+	<span><h1>{{ event.name }}</h1></span><br>
+	<span>{{event.description}}</span><br><br>
+	<span>Location : {{event.location}}</span><br><br>
+	<span>Duration : {{event.start_datetime}} to {{event.end_datetime}}</span><br><br>
 	</li>
 	<h1>Attendees</h1>
 	<ul>
@@ -16,18 +16,17 @@
 	{% endfor %}
 	</ul>
 	<h1>Comments</h1>
+	<ul data-role="listview">
 	{% for comment in comments %}
-	<li>
-		<p>
-			<strong>{{comment.user}} says:</strong>
+	<li class="commentView">
+			<span class="commentViewUser">{{comment.user}} says:</span>
 			<br />
-			{{comment.comment}}
+			<span class="commentViewPlainText">{{comment.comment}}</span>
 			<br />
-			{{comment.created_datetime|timesince}} ago
-		</p>
+			<span class="commentViewPlainText">{{comment.created_datetime|timesince}} ago</span>
 	</li>
 	{% endfor %}
-	
+	</ul>
 </p>
 
 {% endblock %}
