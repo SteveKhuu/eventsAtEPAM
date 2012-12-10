@@ -16,6 +16,9 @@ class Events(models.Model):
     end_datetime = models.DateTimeField('end datetime')
     created_datetime = models.DateTimeField(default=datetime.now)
     
+    def is_over(self):
+        return timezone.now() >= self.end_datetime
+
     def __unicode__(self):
         return self.name
 
@@ -24,7 +27,7 @@ class Attendee(models.Model):
     event = models.ForeignKey(Events)
     is_managing = models.BooleanField(default=False)
     
-    def __unicode(self):
+    def __unicode__(self):
         return self.user.username + " => " + self.event.name
 
 class Comment(models.Model):
@@ -35,3 +38,14 @@ class Comment(models.Model):
     
     def __unicode__(self):
         return self.comment
+    
+class Task(models.Model):
+    name = models.CharField(max_length=200)
+    user = models.ForeignKey(User)
+    event = models.ForeignKey(Events)
+    is_done = models.BooleanField(default=False)
+    created_datetime = models.DateTimeField(default=datetime.now)
+    
+    def __unicode__(self):
+        return self.name
+    
