@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block content %}
+<h1>{{ title }}</h1>
+
+<p>
+  {{ message }}
+</p>
+
+Click <a href="{% url 'detail' event.id %}" >here</a> to return to the event
+{% endblock %}

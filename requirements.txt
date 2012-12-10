@@ -1,0 +1,7 @@
+BeautifulSoup==3.2.0
+Django==1.4.2
+South==0.7.6
+dj-database-url==0.2.1
+icalendar==3.1
+psycopg2==2.4.5
+simplejson==2.6.1

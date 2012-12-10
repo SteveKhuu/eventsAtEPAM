@@ -209,3 +209,43 @@ def delete_event(request, event_id):
     event.delete()
     
     return redirect('index')
+
+def send_email(request, event_id):
+  event = get_object_or_404(Events, pk=event_id)
+  output = make_calendar_object(event_id)
+  
+  attachment_name = '%s.ics' % slugify(event.name + "-" + str(event.start_datetime.year))
+  
+  context = {'event': event,
+             'title' : 'Uh-oh!',
+             'message' : 'Something went wrong when sending out the invitation'}
+    
+  ctx_dict = {'event_name': event.name,
+                'event_description': event.description,
+                'event_start' : event.start_datetime,
+                'event_id': event.pk,
+                'site': Site.objects.get_current()
+                }
+    
+  subject = "Events at EPAM Event invitation to " + event.name
+  message = render_to_string('eventsAtEPAM/event_invite_message.txt',
+                             ctx_dict)
+      
+  try:
+    mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, settings.TEST_EMAIL_LIST)
+    mail.attach(attachment_name, output, 'text/calendar')
+    mail.send()
+  
+    event.flag_submitted()
+            
+    context['title'] = 'Success!'
+    context['message'] = 'Invitation was successfully sent!'
+    return render(request, 'eventsAtEPAM/send_done.html', context)
+  except :
+    e = sys.exc_info()[0]
+    print e
+    context['title'] = 'Error!'
+    context['message'] = 'There was an error sending your invitation.'
+    return render(request, 'eventsAtEPAM/send_done.html', context)
+  
+  return render(request, 'eventsAtEPAM/send_done.html', context)

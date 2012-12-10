@@ -1,0 +1,9 @@
+{% load i18n %}
+{% load humanize %}
+
+Events at EPAM invite you to attend the {{event_name}} event on {{event_start|naturalday}} at {{event_start|time}}.
+
+The organizers describe this event as {{event_description}}
+
+Click the link below to see the event details:
+http://{{ site.domain }}{% url detail event_id %}

@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^delete/(?P<event_id>\d+)/$', views.delete_event, name='delete'),
     url(r'^export/(?P<event_id>\d+)/$', views.export_event, name='export'),
     url(r'^comment/(?P<event_id>\d+)/$', views.comment, name='comment'),
+    url(r'^share/(?P<event_id>\d+)/$', views.send_email, name='share'),
     
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/profile/', redirect_to, {'url': '/'}),

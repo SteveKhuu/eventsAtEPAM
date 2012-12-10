@@ -10,6 +10,7 @@
 	<a href="{% url 'attend' event.id %}">Attend event</a>
 	{% endif %}
 	<a href="{% url 'export' event.id %}">Export event to calendar</a>
+	<a href="{% url 'share' event.id %}">Share event</a>
 	{% if is_managing %}
 		<a href="{% url 'edit' event.id %}">Edit event</a>
 		<a href="{% url 'delete' event.id %}">Delete event</a>
