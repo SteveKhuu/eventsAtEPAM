@@ -19,6 +19,13 @@ class Events(models.Model):
     def __unicode__(self):
         return self.name
 
+class Attendee(models.Model):
+    user = models.ForeignKey(User)
+    event = models.ForeignKey(Events)
+    is_managing = models.BooleanField(default=False)
+    
+    def __unicode(self):
+        return self.user.username + " => " + self.event.name
 
 class Comment(models.Model):
     user = models.ForeignKey(User)
