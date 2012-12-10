@@ -15,92 +15,76 @@
 	<span>{{event.description}}</span><br><br>
 	<span>Location : {{event.location}}</span><br><br>
 	<span>Duration : {{event.start_datetime}} to {{event.end_datetime}}</span><br><br>
-	
-	<h1>Attendees</h1>
-	<ul>
-	{% for attendee in attendees %}
-		<li>
-			{{ attendee.user }}
-		</li>
-	{% endfor %}
-	</ul>
-	
-	<h1>Comments</h1>
-	<ul data-role="listview">
-	{% for comment in comments %}
-	<li class="commentView">
-			<span class="commentViewUser">{{comment.user}} says:</span>
-			<br />
-			<span class="commentViewPlainText">{{comment.comment}}</span>
-			<br />
-			<span class="commentViewPlainText">{{comment.created_datetime|timesince}} ago</span>
+</p>
+
+<h1>Attendees</h1>
+<ul>
+{% for attendee in attendees %}
+	<li>
+		{{ attendee.user }}
 	</li>
-	{% endfor %}
-	</ul>
-	
-	{% if is_managing %}
+{% endfor %}
+</ul>
+
+{% if is_managing %}
 	<h2>Tasks</h2>
 	<form method='post' action='.'>
-	{% csrf_token %}
-	<table class="table">
-		{{ task_list_formset.non_form_errors.as_ul }}
-		{{ task_list_formset.management_form }}
-		{% for form in task_list_formset.forms %}
-
-			{% if forloop.first %}
-			<thead>
-				<tr>
+		{% csrf_token %}
+		<table class="table">
+			{{ task_list_formset.non_form_errors.as_ul }}
+			{{ task_list_formset.management_form }}
+			{% for form in task_list_formset.forms %}
+	
+				{% if forloop.first %}
+				<thead>
+					<tr>
+					{% for field in form.visible_fields %}
+						<th>{{ field.label|capfirst }}</th>
+					{% endfor %}
+					</tr>
+				</thead>
+				{% endif %}
+				<tr class="{% cycle row1,row2 %}">
 				{% for field in form.visible_fields %}
-					<th>{{ field.label|capfirst }}</th>
+					<td>
+					{% if forloop.first %}
+						{% for hidden in form.hidden_fields %}
+						{{ hidden }}
+						{% endfor %}
+					{% endif %}
+					{{ field.errors.as_ul }}
+					{{ field }}
+					</td>
 				{% endfor %}
 				</tr>
-			</thead>
-			{% endif %}
-			<tr class="{% cycle row1,row2 %}">
-			{% for field in form.visible_fields %}
-				<td>
-				{% if forloop.first %}
-					{% for hidden in form.hidden_fields %}
-					{{ hidden }}
-					{% endfor %}
-				{% endif %}
-				{{ field.errors.as_ul }}
-				{{ field }}
-				</td>
 			{% endfor %}
-			</tr>
-		{% endfor %}
+	
+		</table>
+		<input title='Update the tasks' type='submit' name='submit' value='Update Tasks' />
+	</form>
+{% endif %}
 
-	</table>
-	<input title='Update the tasks' type='submit' name='submit' value='Update Tasks' />
- </form>
+{% if is_attending %}
+	<h2>Comments</h2>
+		<form action="{% url 'comment' event.id %}" method="post">
+		{% csrf_token %}
+		{{ comment_form.as_p }}
+		<input type="submit" value="Submit Comment" />
+	</form>
 
- {% endif %}
- 
-	{% if is_attending %}
-		<h2>Comments</h2>
-			<form action="{% url 'comment' event.id %}" method="post">
-			{% csrf_token %}
-			{{ comment_form.as_p }}
-			<input type="submit" value="Submit Comment" />
-		</form>
-
-		{% if comments %}
-		<ul class="comments">
+	{% if comments %}
+		<ul data-role="listview">
 		{% for comment in comments %}
-			<li>
-				<strong>{{comment.user}} says:</strong>
+		<li class="commentView">
+				<span class="commentViewUser">{{comment.user}} says:</span>
 				<br />
-				{{comment.comment}}
+				<span class="commentViewPlainText">{{comment.comment}}</span>
 				<br />
-			{{comment.created_datetime|timesince}} ago
-			</li>
+				<span class="commentViewPlainText">{{comment.created_datetime|timesince}} ago</span>
+		</li>
 		{% endfor %}
 		</ul>
 	{% endif %}
-	
 {% endif %}
-	
-</p>
 
 {% endblock %}
