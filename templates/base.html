@@ -28,10 +28,10 @@
 			</div><div id ="buttonHolder">
 	
 			{% if user.is_authenticated %}
-				<a id="create_button" href="{% url create %}" class="btn btn-inverse">Create</a>
-				<a id="allevents_button" href="{% url index %}" class="btn btn-primary">All Events</a>
-				<a id="myevents_button" href="{% url my_events %}" class="btn btn-info">My Events</a>
-				<a id="myevents_button" href="{% url auth_logout %}" class="btn btn-danger">Logout</a>
+				<a href="{% url create %}" class="btn btn-inverse">Create</a>
+				<a href="{% url index %}" class="btn btn-primary">All Events</a>
+				<a href="{% url my_events %}" class="btn btn-info">My Events</a>
+				<a href="{% url auth_logout %}" class="btn btn-danger">Logout</a>
 			{% else %}
 				<a href="{% url auth_login %}" class="btn btn-primary">{% trans "Log in" %}</a>
 			{% endif %}
@@ -40,6 +40,7 @@
 	</div>
 	</header>
 		<div id="content" class="container-narrow">
+		<br>
 			{% block content %}{% endblock %}
 		</div>
 	

@@ -6,8 +6,8 @@
 	<form method="post" action=".">
 	  {{ form.as_p }}
 	  {% csrf_token %}
-	  <input type="submit" value="{% trans 'Log in' %}" />
-	  <input type="hidden" name="next" value="{{ next }}" />
+	  <input type="submit" value="{% trans 'Log in' %}" id="log_in" />
+	  <input data-skip-enhance="true" type="hidden" name="next" value="{{ next }}" />
 	</form>
 </div>
 <p>{% trans "Not member" %}? <a href="{% url registration_register %}">{% trans "Register" %}</a>!</p>
