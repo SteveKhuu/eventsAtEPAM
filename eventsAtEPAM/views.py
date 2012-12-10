@@ -15,7 +15,17 @@ from eventsAtEPAM.models import Events, Attendee, Comment, Task
 from eventsAtEPAM.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm
 
 def index(request):
-    events = Events.objects.all()
+    events = Events.objects.all().order_by('-start_datetime')
+    
+    context = {
+               'events' : events
+               }
+    
+    return render(request, 'eventsAtEPAM/index.html', context)
+
+def my_events(request):
+    user = request.user
+    events = Events.objects.filter(attendee=user).order_by('-start_datetime')
     
     context = {
                'events' : events
