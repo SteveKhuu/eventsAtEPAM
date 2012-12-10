@@ -1,0 +1,8 @@
+{% load i18n %}
+
+Hello {{username}} !
+
+You've been assigned the task {{task_name}} for the {{event_name}} event.
+
+Click the link below to go to this event
+http://{{ site.domain }}{% url detail event_id %}

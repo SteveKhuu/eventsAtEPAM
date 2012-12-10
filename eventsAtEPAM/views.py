@@ -1,8 +1,15 @@
+import icalendar
+import random
+import sys
+from icalendar import Calendar, Event
+
 from django import forms
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
+from django.template.defaultfilters import slugify
 
 from eventsAtEPAM.models import Events, Attendee, Comment
 from eventsAtEPAM.eventForms import EventForm
@@ -76,3 +83,42 @@ def edit_event(request, event_id):
     'button_label' : 'Save changes'
     }
     return render(request, 'eventsAtEPAM/create.html', context)
+
+def make_calendar_object(event_id):
+    event = get_object_or_404(Events, pk=event_id)
+
+    site = Site.objects.get_current()
+
+    site_token = site.domain.split('.')
+    site_token.reverse()
+    site_token = '.'.join(site_token)
+
+    cal = Calendar()
+    cal.add('prodid', '-//%s Events Calendar//%s//' % (site.name, site.domain))
+    cal.add('version', '2.0')
+
+    eventObj = Event()
+    eventObj.add('summary', event.name)
+    eventObj.add('location', event.location)
+    eventObj.add('dtstart', event.start_datetime)
+    eventObj.add('dtend', event.end_datetime)
+    eventObj.add('dtstamp', event.created_datetime)
+    eventObj['uid'] = '%dT%d.events.%s' % (event.id, random.randrange(111111111,999999999), site_token)
+    eventObj.add('priority', 5)
+
+    cal.add_component(eventObj)
+
+    output = ""
+    for line in cal.content_lines():
+        if line:
+            output += line + "\n"
+
+    return output
+
+def export_event(request, event_id):
+    event = get_object_or_404(Events, pk=event_id)
+    output = make_calendar_object(event_id)
+    response = HttpResponse(output, mimetype="text/calendar")
+    response['Content-Disposition'] = 'attachment; filename=%s.ics' % slugify(event.name + "-" + str(event.start_datetime.year))
+    
+    return response
