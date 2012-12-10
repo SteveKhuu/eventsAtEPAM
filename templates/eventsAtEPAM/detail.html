@@ -2,11 +2,20 @@
 {% load url from future %}
 
 {% block content %}
+
+<nav>
+	<a href="{% url 'export' event.id %}">Export event to calendar</a>
+	{% if is_managing %}
+		<a href="{% url 'edit' event.id %}">Edit event</a>
+	{% endif %}
+</nav>
+
+<p>
 	<span><h1>{{ event.name }}</h1></span><br>
 	<span>{{event.description}}</span><br><br>
 	<span>Location : {{event.location}}</span><br><br>
 	<span>Duration : {{event.start_datetime}} to {{event.end_datetime}}</span><br><br>
-	</li>
+	
 	<h1>Attendees</h1>
 	<ul>
 	{% for attendee in attendees %}
@@ -15,6 +24,7 @@
 		</li>
 	{% endfor %}
 	</ul>
+	
 	<h1>Comments</h1>
 	<ul data-role="listview">
 	{% for comment in comments %}
@@ -27,6 +37,31 @@
 	</li>
 	{% endfor %}
 	</ul>
+	
+	{% if is_attending %}
+		<h2>Comments</h2>
+			<form action="{% url 'comment' event.id %}" method="post">
+			{% csrf_token %}
+			{{ comment_form.as_p }}
+			<input type="submit" value="Submit Comment" />
+		</form>
+
+		{% if comments %}
+		<ul class="comments">
+		{% for comment in comments %}
+			<li>
+				<strong>{{comment.user}} says:</strong>
+				<br />
+				{{comment.comment}}
+				<br />
+			{{comment.created_datetime|timesince}} ago
+			</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	
+{% endif %}
+	
 </p>
 
 {% endblock %}

@@ -1,8 +1,12 @@
 import datetime
-from django.db import models
-from django.utils import timezone
 from datetime import datetime
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.core.mail.message import EmailMessage
+from django.db import models
+from django.template.loader import render_to_string
+from django.utils import timezone
 
 class Events(models.Model):
     
@@ -15,6 +19,8 @@ class Events(models.Model):
     start_datetime = models.DateTimeField('start datetime')
     end_datetime = models.DateTimeField('end datetime')
     created_datetime = models.DateTimeField(default=datetime.now)
+    
+    attendees = models.ManyToManyField(User, through='Attendee')
     
     def is_over(self):
         return timezone.now() >= self.end_datetime
@@ -45,6 +51,38 @@ class Task(models.Model):
     event = models.ForeignKey(Events)
     is_done = models.BooleanField(default=False)
     created_datetime = models.DateTimeField(default=datetime.now)
+    
+    def inform_task_to_attendee(self):
+    
+        if self.user.email:
+            assignee = self.user
+            event = self.event
+        
+            ctx_dict = {'username': assignee.username,
+                        'task_name': self.name,
+                        'event_name': event.name,
+                        'event_id' : event.pk,
+                        'site': Site.objects.get_current()
+                        }
+        
+            subject = event.name + " task assignment"
+            message = render_to_string('eventsAtEPAM/task_message.txt',
+                                       ctx_dict)
+        
+            try:
+              mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [self.user.email])
+              mail.send()
+        
+            except: 
+              print 'There was an error sending your invitation.'
+    
+    def save(self, *args, **kwargs):
+        attendee, created = Attendee.objects.get_or_create(user=self.user, event=self.event)
+        attendee.is_managing = True
+        attendee.save()
+        if not self.pk:
+            self.inform_task_to_attendee()
+        super(Task, self).save(*args, **kwargs)
     
     def __unicode__(self):
         return self.name

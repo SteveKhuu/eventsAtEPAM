@@ -22,16 +22,23 @@
 		<script src="{% get_static_prefix %}js/less.js"></script>
 	</head>
 	<body>
-	<div id="header" class="container-narrow">
-	<div id ="logoHolder">
-	<a href="/"><img src="{% get_static_prefix %}img/eventsAtEPAM.png"></img></a>
-	</div><div id ="buttonHolder">
-	<a id="create_button" class="btn btn-inverse">Create</a>
-	<a id="allevents_button" class="btn btn-primary">All Events</a>
-	<a id="myevents_button" class="btn btn-info">My Events</a>
-	<a id="myevents_button" class="btn btn-danger">Logout</a>
+		<header id="header">
+			<div id ="logoHolder">
+				<a href="/"><img src="{% get_static_prefix %}img/eventsAtEPAM.png"></img></a>
+			</div><div id ="buttonHolder">
+	
+			{% if user.is_authenticated %}
+				<a id="create_button" href="{% url create %}" class="btn btn-inverse">Create</a>
+				<a id="allevents_button" class="btn btn-primary">All Events</a>
+				<a id="myevents_button" class="btn btn-info">My Events</a>
+				<a id="myevents_button" href="{% url auth_logout %}" class="btn btn-danger">Logout</a>
+			{% else %}
+				<a href="{% url auth_login %}" class="btn btn-primary">{% trans "Log in" %}</a>
+			{% endif %}
+	
+	
 	</div>
-	</div>
+	</header>
 		<div id="content" class="container-narrow">
 			{% block content %}{% endblock %}
 		</div>
