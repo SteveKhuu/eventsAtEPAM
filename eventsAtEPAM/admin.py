@@ -1,5 +1,5 @@
 from django.contrib import admin
-from eventsAtEPAM.models import Events, Comment, Attendee, Task
+from eventsAtEPAM.models import Events, Comment, Attendee, Task, Subscriber
 
 class EventsAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -16,7 +16,17 @@ class TaskAdmin(admin.ModelAdmin):
 class AttendeeAdmin(admin.ModelAdmin):
     list_display = ('user', 'event', 'is_managing')
 
+class SubscriberAdmin(admin.ModelAdmin):
+    
+    actions = ['test_action']
+    
+    def test_action(self, request, queryset):
+        self.message_user(request, "This is a test.")
+
+    
+
 admin.site.register(Events, EventsAdmin)
 admin.site.register(Comment)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(Subscriber, SubscriberAdmin)
