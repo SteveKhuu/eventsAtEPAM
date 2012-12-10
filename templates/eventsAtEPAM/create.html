@@ -2,11 +2,11 @@
 {% load url from future %}
 
 {% block content %}
-<div class="centered">
+<div>
 	<form action="." method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<input type="submit" value="{{ button_label }}" />
+	<input type="submit" value="{{ button_label }}" id="create_event"/>
 	</form>
 </div>
 {% endblock %}
