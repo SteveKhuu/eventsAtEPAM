@@ -2,18 +2,19 @@
 {% load url from future %}
 
 {% block content %}
-
+<h1>Events</h1>
 	{% for event in events %}
-	<p>
+	<ul data-role="listview">
+	<li>
+		<a href="{% url 'detail' event.id %}">
 		<span><h3>{{ event.name }}</h3></span>
 		<span>{{event.description}}</span>
 		<span>{{event.start_datetime}} to {{event.end_datetime}}</span>
-		<div>
-			<a href="{% url 'detail' event.id %}">
-			View Details
 		</a>
-		</div>
-	</p>
+	</li>
+	</ul>
 	{% endfor %}
+	
+	
 	
 {% endblock %}
