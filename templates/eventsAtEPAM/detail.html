@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block content %}
+<p>
+	<span><h3>{{ event.name }}</h3></span>
+	<span>{{event.description}}</span>
+	<span>{{event.start_datetime}} to {{event.end_datetime}}</span>
+	
+	<h1>Attendees</h1>
+	<ul>
+	{% for attendee in attendees %}
+		<li>
+			{{ attendee.user }}
+		</li>
+	{% endfor %}
+	</ul>
+	
+	<h1>Comments</h1>
+	{% for comment in comments %}
+	<li>
+		<p>
+			<strong>{{comment.user}} says:</strong>
+			<br />
+			{{comment.comment}}
+			<br />
+			{{comment.created_datetime|timesince}} ago
+		</p>
+	</li>
+	{% endfor %}
+	
+</p>
+
+{% endblock %}

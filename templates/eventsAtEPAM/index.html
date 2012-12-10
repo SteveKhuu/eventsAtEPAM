@@ -1,5 +1,19 @@
 {% extends "base.html" %}
+{% load url from future %}
 
 {% block content %}
-Hello world
+
+	{% for event in events %}
+	<p>
+		<span><h3>{{ event.name }}</h3></span>
+		<span>{{event.description}}</span>
+		<span>{{event.start_datetime}} to {{event.end_datetime}}</span>
+		<div>
+			<a href="{% url 'detail' event.id %}">
+			View Details
+		</a>
+		</div>
+	</p>
+	{% endfor %}
+	
 {% endblock %}
