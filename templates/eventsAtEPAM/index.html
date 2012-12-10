@@ -4,14 +4,14 @@
 {% block content %}
 <h1>Events</h1>
 	{% for event in events %}
-	<a href="{% url 'detail' event.id %}">
+	<a class="listdisplaylink" href="{% url 'detail' event.id %}">
 	<ul data-role="listview">
 	<li data-role="divider">
 		
 		<span><h3>{{ event.name }}</h3></span>		
 
 	</li>
-	<li>
+	<li class="listdisplaybody">
 		
 		<span>{{event.description}}</span><br>
 		<span>{{event.location}}</span><br>
