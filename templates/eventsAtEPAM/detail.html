@@ -22,10 +22,10 @@
 		<a href="{% url 'delete' event.id %}">Delete event</a>
 	{% endif %}
 </div> </div>
-
-	<span>{{event.description}}</span><br><br>
-	<span>Location : {{event.location}}</span><br><br>
-	<span>Duration : {{event.start_datetime}} to {{event.end_datetime}}</span><br><br>
+<br>
+	<span class="detail_subtitle">Description : </span><span>{{event.description}}</span><br><br>
+	<span class="detail_subtitle">Location : </span> <span>{{event.location}}</span><br><br>
+	<span class="detail_subtitle">Duration : </span><span>{{event.start_datetime}} to {{event.end_datetime}}</span><br><br>
 </p>
 
 <h1>Attendees</h1>
@@ -37,7 +37,7 @@
 {% endfor %}
 </ul>
 
-{% if is_managing %}
+{% if is_managing %}<br>
 	<h1>Tasks</h1>
 	<form method='post' action='.'>
 		{% csrf_token %}
@@ -71,7 +71,9 @@
 			{% endfor %}
 	
 		</table>
-		<input title='Update the tasks' type='submit' name='submit' data-skip-enhance="true" value='Update Tasks' />
+		<div class="align-right">
+		<input title='Update the tasks' type='submit' name='submit' data-skip-enhance="true" value='Update Tasks'  class="btn btn-primary" />
+		</div>
 	</form>
 {% endif %}
 

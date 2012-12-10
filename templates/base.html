@@ -29,9 +29,9 @@
 	
 			{% if user.is_authenticated %}
 				<a href="{% url create %}" class="btn btn-inverse">Create</a>
-				<a href="{% url index %}" class="btn btn-primary">All Events</a>
+				<a href="{% url index %}" class="btn btn-info">All Events</a>
 				<a href="{% url my_events %}" class="btn btn-info">My Events</a>
-				<a href="{% url my_preferences %}" class="btn btn-info">My Preferences</a>
+				<a href="{% url my_preferences %}" class="btn btn-info">Preferences</a>
 				<a href="{% url auth_logout %}" class="btn btn-danger">Logout</a>
 			{% else %}
 				<a href="{% url auth_login %}" class="btn btn-primary">{% trans "Log in" %}</a>
