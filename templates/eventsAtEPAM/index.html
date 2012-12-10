@@ -4,15 +4,22 @@
 {% block content %}
 <h1>Events</h1>
 	{% for event in events %}
+	<a href="{% url 'detail' event.id %}">
 	<ul data-role="listview">
+	<li data-role="divider">
+		
+		<span><h3>{{ event.name }}</h3></span>		
+
+	</li>
 	<li>
-		<a href="{% url 'detail' event.id %}">
-		<span><h3>{{ event.name }}</h3></span>
-		<span>{{event.description}}</span>
+		
+		<span>{{event.description}}</span><br>
+		<span>{{event.location}}</span><br>
 		<span>{{event.start_datetime}} to {{event.end_datetime}}</span>
-		</a>
+		
 	</li>
 	</ul>
+	</a>
 	{% endfor %}
 	
 	
