@@ -19,7 +19,7 @@
 	<a href="{% url 'share' event.id %}">Share event</a>
 	{% if is_managing %}
 		<a class="btn btn-primary" href="{% url 'edit' event.id %}"><i class="icon-white icon-pencil"></i> Edit</a>
-		<a href="{% url 'delete' event.id %}">Delete event</a>
+		<a class="btn btn-primary" href="{% url 'delete' event.id %}"><i class="icon-white icon-minus"></i> Delete event</a>
 	{% endif %}
 </div> </div>
 <br>
