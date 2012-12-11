@@ -15,8 +15,8 @@
 	<a  class="btn btn-primary" href="{% url 'attend' event.id %}"><i class="icon-white icon-ok"></i> Attend</a>
 	{% endif %}
 	{% endif %}
-	<a class="btn btn-primary" href="{% url 'export' event.id %}"><i class="icon-white icon-chevron-down"></i> Export</a><a href="{% url 'export' event.id %}">Export event to calendar</a>
-	<a href="{% url 'share' event.id %}">Share event</a>
+	<a class="btn btn-primary" href="{% url 'export' event.id %}"><i class="icon-white icon-chevron-down"></i> Export</a>
+	<a href="{% url 'share' event.id %}">Share</a>
 	{% if is_managing %}
 		<a class="btn btn-primary" href="{% url 'edit' event.id %}"><i class="icon-white icon-pencil"></i> Edit</a>
 		<a class="btn btn-primary" href="{% url 'delete' event.id %}"><i class="icon-white icon-minus"></i> Delete event</a>
