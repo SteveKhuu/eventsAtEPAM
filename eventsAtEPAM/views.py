@@ -51,7 +51,7 @@ def leave_event(request, event_id):
 def detail(request, event_id):
     user = request.user
     event = get_object_or_404(Events, pk=event_id)
-    comments = Comment.objects.filter(event=event)
+    comments = Comment.objects.filter(event=event).order_by('created_datetime')
     attendees = Attendee.objects.filter(event=event)
     
     is_attending = event.attendees.filter(username=request.user.username).exists()

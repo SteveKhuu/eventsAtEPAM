@@ -10,6 +10,8 @@
 	{% csrf_token %}
 	{{ form.as_p }}
 	<input type="submit" value="Save My Preferences" />
+
+	<a href="{% url 'auth_password_change' %}" class="inline-block">Change password</a>
 	</form>
 </div>
 {% endblock %}

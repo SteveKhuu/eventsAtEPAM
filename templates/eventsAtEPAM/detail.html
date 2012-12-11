@@ -3,22 +3,26 @@
 
 {% block content %}
 
-<nav>
-	{% if is_attending %}
-	<a href="{% url 'leave' event.id %}">Leave event</a>
-	{% else %}
-	<a href="{% url 'attend' event.id %}">Attend event</a>
-	{% endif %}
-	<a href="{% url 'export' event.id %}">Export event to calendar</a>
-	<a href="{% url 'share' event.id %}">Share event</a>
-	{% if is_managing %}
-		<a href="{% url 'edit' event.id %}">Edit event</a>
-		<a href="{% url 'delete' event.id %}">Delete event</a>
-	{% endif %}
-</nav>
+
 
 <p>
-	<span><h1>{{ event.name }}</h1></span><br>
+<div id="event_header">	<div id="event_title"><span><h1>{{ event.name }}</h1></span></div>  
+<div id="event_button">
+	{% if is_attending %}
+	<a  class="btn btn-primary" href="{% url 'leave' event.id %}"><i class="icon-white icon-remove"></i> Leave</a>
+	{% else %}
+	{% if user.is_authenticated %}
+	<a  class="btn btn-primary" href="{% url 'attend' event.id %}"><i class="icon-white icon-ok"></i> Attend</a>
+	{% endif %}
+	{% endif %}
+	<a class="btn btn-primary" href="{% url 'export' event.id %}"><i class="icon-white icon-chevron-down"></i> Export</a><a href="{% url 'export' event.id %}">Export event to calendar</a>
+	<a href="{% url 'share' event.id %}">Share event</a>
+	{% if is_managing %}
+		<a class="btn btn-primary" href="{% url 'edit' event.id %}"><i class="icon-white icon-pencil"></i> Edit</a>
+		<a href="{% url 'delete' event.id %}">Delete event</a>
+	{% endif %}
+</div> </div>
+
 	<span>{{event.description}}</span><br><br>
 	<span>Location : {{event.location}}</span><br><br>
 	<span>Duration : {{event.start_datetime}} to {{event.end_datetime}}</span><br><br>
@@ -34,7 +38,7 @@
 </ul>
 
 {% if is_managing %}
-	<h2>Tasks</h2>
+	<h1>Tasks</h1>
 	<form method='post' action='.'>
 		{% csrf_token %}
 		<table class="table">
@@ -67,18 +71,12 @@
 			{% endfor %}
 	
 		</table>
-		<input title='Update the tasks' type='submit' name='submit' value='Update Tasks' />
+		<input title='Update the tasks' type='submit' name='submit' data-skip-enhance="true" value='Update Tasks' />
 	</form>
 {% endif %}
 
 {% if is_attending %}
-	<h2>Comments</h2>
-		<form action="{% url 'comment' event.id %}" method="post">
-		{% csrf_token %}
-		{{ comment_form.as_p }}
-		<input type="submit" value="Submit Comment" />
-	</form>
-
+	<h1>Comments</h1>
 	{% if comments %}
 		<ul data-role="listview">
 		{% for comment in comments %}
@@ -92,6 +90,13 @@
 		{% endfor %}
 		</ul>
 	{% endif %}
+		<form action="{% url 'comment' event.id %}" method="post">
+		{% csrf_token %}
+		{{ comment_form.as_p }}
+		<div class="align-right">
+		<input type="submit" value="Submit Comment" data-skip-enhance="true" class ="btn btn-primary" />
+		</div>
+	</form>
 {% endif %}
 
 {% endblock %}
