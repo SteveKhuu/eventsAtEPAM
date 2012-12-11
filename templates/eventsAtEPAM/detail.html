@@ -8,6 +8,7 @@
 <p>
 <div id="event_header">	<div id="event_title"><span><h1>{{ event.name }}</h1></span></div>  
 <div id="event_button">
+	<div class="buttons_top align-right">
 	{% if is_attending %}
 	<a  class="btn btn-primary" href="{% url 'leave' event.id %}"><i class="icon-white icon-remove"></i> Leave</a>
 	{% else %}
@@ -16,12 +17,18 @@
 	{% endif %}
 	{% endif %}
 	<a class="btn btn-primary" href="{% url 'export' event.id %}"><i class="icon-white icon-chevron-down"></i> Export</a>
-	<a href="{% url 'share' event.id %}">Share</a>
+	<a class="btn btn-primary" href="{% url 'share' event.id %}"><i class="icon-envelope icon-white"></i> Share</a>
+	</div> 
 	{% if is_managing %}
-		<a class="btn btn-primary" href="{% url 'edit' event.id %}"><i class="icon-white icon-pencil"></i> Edit</a>
-		<a class="btn btn-primary" href="{% url 'delete' event.id %}"><i class="icon-white icon-minus"></i> Delete event</a>
+	<div class="buttons_bottom align-right">
+		<a class="btn btn-danger" href="{% url 'edit' event.id %}"><i class="icon-white icon-pencil"></i> Edit</a>
+		<a class="btn btn-danger" href="{% url 'delete' event.id %}"><i class="icon-white icon-minus"></i> Delete event</a>
+	</div>
 	{% endif %}
-</div> </div>
+
+</div> 
+
+</div>
 <br>
 	<span class="detail_subtitle">Description : </span><span>{{event.description}}</span><br><br>
 	<span class="detail_subtitle">Location : </span> <span>{{event.location}}</span><br><br>
