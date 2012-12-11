@@ -6,7 +6,7 @@
 
 	<h1>User Preferences</h1>
 	
-	<form action="." method="post">
+	<form id="user_preferences" action="." method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
 	<input type="submit" value="Save My Preferences" />

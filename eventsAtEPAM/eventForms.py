@@ -39,6 +39,7 @@ class TaskForm(ModelForm):
 AddTaskFormset = inlineformset_factory(Events, Task, form=TaskForm, extra=1, can_delete=False)
 
 class SubscriberForm(ModelForm):
+    
     class Meta:
         model = Subscriber
         widgets = {
