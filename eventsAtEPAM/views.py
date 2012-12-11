@@ -190,14 +190,16 @@ def my_preferences(request):
     user = request.user
     
     preferences, created = Subscriber.objects.get_or_create(user=user)
-    
+
     if request.method == 'POST':
-        form = SubscriberForm(request.POST)
+        form = SubscriberForm(request.POST, instance=preferences)
         if form.is_valid():
             form.save()
     
     else :
-        form = SubscriberForm(instance=preferences)
+        form = SubscriberForm(instance=preferences) 
+    
+        
     
     context = {
                'form':form

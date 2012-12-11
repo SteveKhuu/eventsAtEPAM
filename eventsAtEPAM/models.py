@@ -107,4 +107,5 @@ class Subscriber(models.Model):
                                       choices=FILTER_CHOICES,
                                       default='c')
     
-    
+    def __unicode__(self):
+        return self.user.username
