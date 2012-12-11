@@ -196,7 +196,8 @@ def my_preferences(request):
         if form.is_valid():
             form.save()
     
-    form = SubscriberForm(instance=preferences)
+    else :
+        form = SubscriberForm(instance=preferences)
     
     context = {
                'form':form
