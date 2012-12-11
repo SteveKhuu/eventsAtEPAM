@@ -9,6 +9,7 @@
 	<form id="user_preferences" action="." method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
+	<br>
 	<input type="submit" value="Save My Preferences" />
 	<br>
 	<a href="{% url 'auth_password_change' %}" data-role="button">Change password</a>
