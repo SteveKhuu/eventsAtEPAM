@@ -169,3 +169,49 @@ LOGGING = {
         },
     }
 }
+
+
+ON_HEROKU=False
+
+if 'HEROKU_PRODUCTION_FLAG' in os.environ:
+  
+  env = lambda e, d: environ[e] if environ.has_key(e) else d
+
+  ON_HEROKU=True
+  EMAIL_HOST=env('EMAIL_HOST', 'smtp.gmail.com')
+  EMAIL_HOST_USER = env('EMAIL_HOST_USER', '')
+  EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', '')
+  TEST_EMAIL_LIST= ['Tom_Klimovski@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com']#
+  FULL_EMAIL_LIST = ['Aliaksei_Kazlouski@epam.com',
+'Liliia_Chernova@epam.com',
+'Pavel_Zhuk@epam.com',
+'Borislav_Andruschuk@epam.com',
+'Pavel_Veller@epam.com',
+'Tom_Klimovski@epam.com',
+'Frank_Vanderzwet@epam.com',
+'Stephen_Khuu@epam.com',
+'Alexey_Passichenko@epam.com',
+'Olga_Voytovich@epam.com',
+'Maksim_Asipovich@epam.com',
+'Ievgen_But@epam.com',
+'Andrey_Mormysh@epam.com',
+'Aliaksandr_Baradach@epam.com',
+'Andrii_Skaliuk@epam.com',
+'Alexander_Matyushentsev@epam.com',
+'Maksym_Naboka@epam.com',
+'Gino_Marckx@epam.com',
+'Jason_Lee@epam.com',
+'Igor_Ovsyanik@epam.com',
+'Yury_Antaniuk@epam.com',
+'Anton_Vaneev@epam.com',
+'Ilya_Sharin@epam.com',
+'Yauheni_Sivukha@epam.com',
+'Stanislau_Paliatayeu@epam.com',
+'Maksim_Alipov@epam.com',
+'Dmytro_Gayvoronskyy@epam.com',
+'Mikhail_Babitski@epam.com',
+'Diana_German@epam.com',
+'Aliaksandr_Voitau@epam.com',
+'Neeladri_Roy@epam.com',
+'Anton_Tomchenko@epam.com']
+  

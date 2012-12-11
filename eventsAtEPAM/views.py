@@ -6,6 +6,7 @@ from icalendar import Calendar, Event
 from django import forms
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.core.mail.message import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -230,14 +231,13 @@ def send_email(request, event_id):
   subject = "Events at EPAM Event invitation to " + event.name
   message = render_to_string('eventsAtEPAM/event_invite_message.txt',
                              ctx_dict)
-      
+  
+     
   try:
     mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, settings.TEST_EMAIL_LIST)
-    mail.attach(attachment_name, output, 'text/calendar')
+    #mail.attach(attachment_name, output, 'text/calendar')
     mail.send()
   
-    event.flag_submitted()
-            
     context['title'] = 'Success!'
     context['message'] = 'Invitation was successfully sent!'
     return render(request, 'eventsAtEPAM/send_done.html', context)
